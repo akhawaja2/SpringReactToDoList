@@ -38,19 +38,14 @@ class GroupList extends Component {
     if (isLoading) {
       return <p>Loading...</p>;
     }
-
     const groupList = groups.map(group => {
       const address = `${group.address || ''} ${group.city || ''} ${group.stateOrProvince || ''}`;
       return <tr key={group.id}>
         <td style={{whiteSpace: 'nowrap'}}>{group.name}</td>
-        <td>{address}</td>
-        <td>{group.events.map(event => {
-          return <div key={event.id}>{new Intl.DateTimeFormat('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: '2-digit'
-          }).format(new Date(event.date))}: {event.title}</div>
-        })}</td>
+        <td>{group.dateAdded}</td>
+        <td>{group.Priority}</td>
+        <td>{group.completed}</td>
+        <td>{group.notes}</td>
         <td>
           <ButtonGroup>
             <Button size="sm" color="primary" tag={Link} to={"/groups/" + group.id}>Edit</Button>
@@ -67,13 +62,15 @@ class GroupList extends Component {
           <div className="float-right">
             <Button color="success" tag={Link} to="/groups/new">Add Group</Button>
           </div>
-          <h3>My JUG Tour</h3>
+          <h3>To Do</h3>
           <Table className="mt-4">
             <thead>
             <tr>
               <th width="20%">Name</th>
-              <th width="20%">Location</th>
-              <th>Events</th>
+              <th width="20%">Date Added</th>
+              <th>Priority</th>
+              <th>Completed</th>
+              <th>Notes</th>
               <th width="10%">Actions</th>
             </tr>
             </thead>

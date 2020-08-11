@@ -1,7 +1,8 @@
 package com.khawaja.developer.jugtours.web;
 
-import com.khawaja.developer.jugtours.model.GroupRepository;
-import com.khawaja.developer.jugtours.model.Group;
+import com.khawaja.developer.jugtours.model.ListRepository;
+import com.khawaja.developer.jugtours.model.ListItem;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 //It's a convenience annotation that combines @Controller and @ResponseBody
@@ -22,36 +24,36 @@ class GroupController {
 
     //One group REPO
     private final Logger log = LoggerFactory.getLogger(GroupController.class);
-    private GroupRepository groupRepository;
+    private ListRepository groupRepository;
 
-    public GroupController(GroupRepository groupRepository) {
+    public GroupController(ListRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
 
     @GetMapping("/groups")
-    Collection<Group> groups() {
+    Collection<ListItem> groups() {
         return groupRepository.findAll();
     }
 
     @GetMapping("/group/{id}")
     ResponseEntity<?> getGroup(@PathVariable Long id) {
-        Optional<Group> group = groupRepository.findById(id);
+        Optional<ListItem> group = groupRepository.findById(id);
         return group.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/group")
-    ResponseEntity<Group> createGroup(@Valid @RequestBody Group group) throws URISyntaxException {
+    ResponseEntity<ListItem> createGroup(@Valid @RequestBody ListItem group) throws URISyntaxException {
         log.info("Request to create group: {}", group);
-        Group result = groupRepository.save(group);
+        ListItem result = groupRepository.save(group);
         return ResponseEntity.created(new URI("/api/group/" + result.getId()))
                 .body(result);
     }
 
     @PutMapping("/group/{id}")
-    ResponseEntity<Group> updateGroup(@Valid @RequestBody Group group) {
+    ResponseEntity<ListItem> updateGroup(@Valid @RequestBody ListItem group) {
         log.info("Request to update group: {}", group);
-        Group result = groupRepository.save(group);
+        ListItem result = groupRepository.save(group);
         return ResponseEntity.ok().body(result);
     }
 
