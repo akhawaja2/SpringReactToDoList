@@ -39,12 +39,12 @@ class GroupList extends Component {
       return <p>Loading...</p>;
     }
     const groupList = groups.map(group => {
-      const address = `${group.address || ''} ${group.city || ''} ${group.stateOrProvince || ''}`;
+      
       return <tr key={group.id}>
         <td style={{whiteSpace: 'nowrap'}}>{group.name}</td>
         <td>{group.dateAdded}</td>
-        <td>{group.Priority}</td>
-        <td>{group.completed}</td>
+        <td>{group.priority}</td>
+        <td>{group.completed ? 'Yes' : 'No'}</td>
         <td>{group.notes}</td>
         <td>
           <ButtonGroup>
